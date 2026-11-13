@@ -1,0 +1,10 @@
+{
+  "site": "mycode1234567890.github.io",
+  "total": 4,
+  "items": [
+    { "id": "0001", "light": 0, "action": "自动漫游", "status": "有效" },
+    { "id": "0002", "light": 1, "action": "伐木任务", "status": "有效" },
+    { "id": "0003", "light": 0, "action": "缓降环视", "status": "有效" },
+    { "id": "0004", "light": 1, "action": "音频疾跑", "status": "待校验" }
+  ]
+}
