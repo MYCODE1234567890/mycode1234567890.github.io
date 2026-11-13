@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>MOFENG 解析测试站</title>
+</head>
+<body>
+
+<h1>MOFENG 解析测试站</h1>
+<p>本页面用于测试浏览器 / 爬虫解析能力，共 7 项。</p>
+
+<hr>
+<h2>【测试1】纯文本与编码</h2>
+<p>中文：摩枫实验舱 · 黑暗计时 · 无光资源包</p>
+<p>Emoji：🌑 🔦 🧪 📦 ✅</p>
+<p>符号：&lt; &gt; &amp; " ' % # @ ￥</p>
+<p>数字：0 1 23 100.98MiB 256×255</p>
+
+<hr>
+<h2>【测试2】结构化表格</h2>
+<table border="1" cellpadding="6">
+  <thead>
+    <tr><th>样本ID</th><th>来源服</th><th>亮度</th><th>触发动作</th><th>状态</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>0001</td><td>fmofeng.com</td><td>0</td><td>自动漫游</td><td>有效</td></tr>
+    <tr><td>0002</td><td>fmofeng.com</td><td>1</td><td>伐木任务</td><td>有效</td></tr>
+    <tr><td>0003</td><td>mofeng.com.xyz</td><td>0</td><td>360°缓降环视</td><td>有效</td></tr>
+    <tr><td>0004</td><td>mofeng.com.xyz</td><td>1</td><td>音频疾跑</td><td>待校验</td></tr>
+  </tbody>
+</table>
+
+<hr>
+<h2>【测试3】链接跳转</h2>
+<ul>
+  <li><a href="child.html">内链：child.html</a></li>
+  <li><a href="data.json">内链：data.json（原始 JSON）</a></li>
+  <li><a href="https://mycode1234567890.github.io/">外链：本站首页</a></li>
+</ul>
+
+<hr>
+<h2>【测试4】iframe 嵌套</h2>
+<iframe src="child.html" width="600" height="180" title="嵌套测试"></iframe>
+
+<hr>
+<h2>【测试5】懒加载区块（3 秒后出现）</h2>
+<p>下面这块内容初始为空，3 秒后才渲染 —— 用来模拟"打开时空白、加载后出现"的时序。</p>
+<div id="lazy">（加载中……）</div>
+
+<hr>
+<h2>【测试6】动态 fetch 渲染</h2>
+<p>下面列表由 fetch 读取 data.json 后生成，静态抓取看不到，只有真实浏览器能拿到。</p>
+<ul id="dynamic"><li>（等待数据……）</li></ul>
+
+<hr>
+<h2>【测试7】长文本</h2>
+<p id="longtext"></p>
+
+<script>
+setTimeout(function () {
+  document.getElementById("lazy").innerHTML =
+    "<strong>懒加载内容已出现：</strong>MOFENG Data Mirrors 资源同步完成，共 23 份 Daytime 塔数据。";
+}, 3000);
+
+fetch("data.json")
+  .then(function (r) { return r.json(); })
+  .then(function (d) {
+    var box = document.getElementById("dynamic");
+    box.innerHTML = "";
+    d.items.forEach(function (it) {
+      var li = document.createElement("li");
+      li.textContent = it.id + " | " + it.light + " | " + it.action + " | " + it.status;
+      box.appendChild(li);
+    });
+    document.body.setAttribute("data-parse-ok", "true");
+  })
+  .catch(function () {
+    document.getElementById("dynamic").innerHTML = "<li>数据加载失败</li>";
+  });
+
+var seg = "MOFENG 解析测试长段落，用于验证大段文字能否被完整读取而不被截断。";
+var out = [];
+for (var i = 0; i < 20; i++) { out.push("第" + (i + 1) + "段：" + seg); }
+document.getElementById("longtext").textContent = out.join(" ");
+</script>
+
+</body>
+</html>
